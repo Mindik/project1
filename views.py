@@ -134,7 +134,7 @@ def sign_up():
 
     if request.method == "POST":
         form = SignUp()
-        print(form.email.data)
+
         # Check database users
         if form.checkDb() != 0:
             flash("This mailbox is already in use!")
@@ -324,8 +324,7 @@ def page_book(isbnBook):
         else:
             percent = bookInfo[0].average_score * 100 / 5
             color = "#f55f2c"
-            print(bookInfo[0].review_count)
-            print(bookInfo[0].average_score)
+
             if len(bookReview) == 0:
                 return render_template("page_book.html", bookInfo=bookInfo[0], review_count=bookInfo[0].review_count,
                                        average_score=bookInfo[0].average_score, percent=percent, color=color, text=text,
@@ -363,7 +362,7 @@ def api(isbn):
 
     if len(infoBook) == 0:
         return jsonify({"error": "Book not found"}), 404
-    print(infoBook)
+
     return jsonify({
         "title": infoBook[0].title,
         "author": infoBook[0].author,

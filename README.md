@@ -91,6 +91,10 @@ Importing the source data about books from the books.csv table was done by a pro
     The directory where the HTML markup templates are located. The main [layout.html](templates/layout.html) template. 
     <br>The rest are related to him, thanks to [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/)
 
+9. Database [schema](https://adminer.cs50.net/?pgsql=ec2-3-222-30-53.compute-1.amazonaws.com&username=jkjcpacwmyvinj&db=d99t3klcu7ronr&ns=public&schema=books%3A26.792x19.5874_users%3A27.3923x28.8933_reviews%3A41.4262x28.7432_rating%3A34.747x1.8011_img_text%3A33.3961x11.4823)
+    
+    ![schema DB](https://i.ibb.co/PWN8wp3/Screenshot-2.png)
+
 #### Additional files
 
 1. [secretKey.py](secretKey.py)

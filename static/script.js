@@ -201,7 +201,7 @@ function sendReview(text) {
                 ${ data.text }
             </div>`;
         // New rating percent for stars
-        const newPercent = parseInt(data.score) * 100 / 5;
+        let newPercent = parseFloat(data.score) * 100 / 5;
         // Add style background
         document.querySelector(".rating").style.background = "linear-gradient(to right, #f55f2c " + newPercent +
             "%," + " #f3f3f3 " + (100 - newPercent) + "%)";
@@ -359,10 +359,18 @@ function send_data(text) {
 /* -------- Next page function -------- */
 function go_page(event) {
     // If the first or last page is selected, then turn off the left and right buttons
-    if (event === 1) {
+    if (event === 1 && pageList.length === 2) {
         document.querySelector('.left_page').classList.add('disabled');
-    } else if (event === pageList.length) {
+        document.querySelector('.right_page').classList.remove('disabled');
+    } else if (event === pageList.length && pageList.length === 2) {
         document.querySelector('.right_page').classList.add('disabled');
+        document.querySelector('.left_page').classList.remove('disabled');
+    } else if (event === 1 && pageList.length !== 2) {
+        document.querySelector('.left_page').classList.add('disabled');
+        document.querySelector('.right_page').classList.remove('disabled');
+    } else if (event === pageList.length && pageList.length !== 2) {
+        document.querySelector('.right_page').classList.add('disabled');
+        document.querySelector('.left_page').classList.remove('disabled');
     } else {
         document.querySelector('.left_page').classList.remove('disabled');
         document.querySelector('.right_page').classList.remove('disabled');
