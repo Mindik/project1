@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Books
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="search_inner">
+        <div class="close_b">
+            <botton class="close_btn" type="reset" onclick="closeSearchView()"><i class="far
+            fa-times-circle"></i></botton>
+            <botton class="close_btn" id="send_search" onclick="search()"><i class="fas fa-search"></i></botton>
+        </div>
+        <div class="navigat">
+{# Person form #}
+            <div class="person_form">
+                <div class="person_background">
+{# Person header #}
+                    <div>
+                        <botton class="close_window" type="reset" onclick="closeProfileView()"><i class="far
+                        fa-times-circle"></i></botton>
+                    </div>
+                    <div class="row person_header">
+
+            {% for us in user %}
+                        <div class="ava_img" style="background-image:url(/static/ava/{{ us.avatar_img }});"></div>
+                        <div class="col-md-5 person_text">
+                            <p class="name_lastname">{{ us.firstname }} {{ us.lastname }}</p>
+                            <p>{{ score }} ratings, {{ review_text }} reviews</p>
+                            <p>email: {{ us.email }}</p>
+                        </div>
+                    </div>
+                    <hr class="hr">
+{# Person file #}
+                    <div class="row others_form">
+                        <div class="col-md-4 form_switch_email">
+                            <div class="form_switch_email_text">Change avatar: files .png, jpg. no more than 5 MB</div>
+                            <form action="/file_ava" enctype="multipart/form-data" method="post">
+                                <div class="custom-file" method="post">
+                                    <input name="file" type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr class="hr">
+{# Person pass and email #}
+                    <div class="row reset_pass_email">
+                        <div class="col-md-4">
+                            <div class="reset_pass_email_text">You can change your password</div>
+                            <form action="/change_pass" class="needs-validation" novalidate method="post">
+                                <input type="hidden" name="reset_email" value="{{ us.email }}">
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md mb-3 col-auto log_pass">
+                                        <input name="old_password" type="password" class="form-control"
+                                               id="validationCustom07"
+                                               placeholder="Old password" required>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md mb-3 col-auto sign_up_pass">
+                                        <input name="new_password" type="Password" class="form-control"
+                                               id="validationCustom04" placeholder="New password" pattern="(?=^.{8,}$)((?=.*\d)|(?=
+                                                                               .*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                                               required>
+                                        <div class="invalid-feedback">
+                                            Min 8 characters: one 0-9 and one A-Z.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md mb-3 col-auto sign_up_pass">
+                                        <input type="password" class="form-control"
+                                               id="validationCustom05" placeholder="Repeat new password" required>
+                                        <div class="invalid-feedback">
+                                            Passwords Don't Match.
+                                        </div>
+                                        <a href="#" class="password-control"
+                                           onclick="return show_hide_password(this);"></a>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Change</button>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="reset_pass_email_text">You can change your password</div>
+                            <form action="/change_email" class="needs-validation" novalidate method="post">
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md mb-3 col-auto log_email">
+                                        <input name="email" type="email" class="form-control" id="validationCustom100"
+                                               placeholder="Email" required>
+                                        <div class="invalid-feedback">
+                                            Please enter email.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md mb-3 col-auto log_pass">
+                                    <input name="password" type="password" class="form-control" id="validationCustom101"
+                                           placeholder="Password" required>
+                                        <a href="#" class="password-control" onclick="return show_hide_password2(this);"></a>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Change</button>
+                            </form>
+                        </div>
+                    </div>
+            {% endfor %}
+                    <botton class="person_btn" type="reset" onclick="profileView()"><i class="fas fa-user"></i></botton>
+                </div>
+            </div>
+{# Search form #}
+            <div class="search_form">
+                <input name="search" id="search" type="search" class="search_text" autocomplete="off">
+                <botton class="search_btn" type="reset" onclick="searchView()"><i class="fas fa-search"></i></botton>
+            </div>
+{# Info form #}
+            <div class="info_form">
+                <div class="info_background">
+                    <div>
+                        <botton type="reset" class="close_window_info" onclick="closeInfoView()"><i class="far
+                        fa-times-circle"></i></botton>
+                    </div>
+                    <div class="row row_info_text">
+                        <div class="col info_text">
+                            <p class="name_lastname">Statistics</p>
+                            <p>{{ countBooks }} books.</p>
+                            <p>{{ countReviews }} reviews.</p>
+                            <p>{{ countUsers }} users.</p>
+                        </div>
+                    </div>
+                    <botton class="info_btn" type="reset" onclick="infoView()">
+                        <i class="fas fa-info"></i>
+                    </botton>
+                </div>
+            </div>
+        </div>
+        <div class="exit">
+            <div class="logout_form">
+                <div class="logout_background">
+                    <a href="/logout" class="logout_btn"><i class="fas fa-door-open"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="result_search" class="result_search">
+{# Result search #}
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item left_page">
+                    <botton id="previous" class="page-link" aria-label="Previous" onclick="previous()"><span
+                            aria-hidden="true">&laquo;
+                    </span></botton>
+                </li>
+                <span class="start_page">
+{# Insert JS #}
+                </span>
+                <li class="page-item right_page">
+                <botton id="next" class="page-link" aria-label="Next" onclick="next()"><span aria-hidden="true">&raquo;</span></botton>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        // Upload Bootstrap 4
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        });
+        // Search if the enter key is pressed
+        document.getElementById("search").addEventListener("keyup", (e) => {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {
+                search();
+            }
+        });
+        // Track events for left and right buttons
+        document.body.onkeydown = (e) => {
+            if (e.code === "ArrowLeft") {
+                previous();
+            } else if (e.code === "ArrowRight") {
+                next();
+            }
+        };
+    </script>
+{% endblock %}

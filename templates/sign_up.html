@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sign up
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="sign_up_inner">
+        <div class="row sign_up_form">
+
+        {% if mail_send == 1 %}
+            <div class="error">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Hi, {{ name }} {{ lastname}}. Thank you for registering!</h4>
+                    <p>We sent you an email so you can activate your account!</p>
+                    <hr>
+                    <p class="mb-0">After activation, you can login using your username and password!</p>
+                    <a href="/sign_in" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Sign in</a>
+                </div>
+            </div>
+
+        {% elif verification == 1 %}
+            <div class="error">
+                <div class="alert alert-primary" role="alert">
+                  <h4>Fine!</h4>
+                  <p>Now you can log in to your account using login and password!</p>
+                  <a href="/sign_in" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Sign in</a>
+                </div>
+            </div>
+        {% else %}
+
+            <div class="col-md">
+                <div class="row sign_up_log">
+                    <div>
+                        <a class="cs50_logo" href="https://cs50.harvard.edu/x/2020/" target="_blank">
+                            <img src="/static/cs50logo.png" width="250" class="cs50_img" alt="" loading="lazy">
+                        </a>
+                    </div>
+                    <div>
+                        <p class="cs50_text">An introduction to the intellectual enterprises of computer science and the art
+                            of programming.</p>
+                    </div>
+                </div>
+                <div class="row sign_up_log">
+                    <div>
+                        <a class="gd_logo" href="https://www.goodreads.com/" target="_blank">
+                            <img src="/static/gdlogo.png" width="250" class="gd_img" alt="" loading="lazy">
+                        </a>
+                    </div>
+                    <div>
+                        <p class="gd_text">The right book in the right hands at the right time can change the
+                        world.</p>
+                    </div>
+                </div>
+                <div class="row sign_up_log">
+                    <div>
+                        <a class="hr_logo" href="https://www.heroku.com/" target="_blank">
+                        <img src="/static/hrlogo.png" width="250" class="hr_img" alt="" loading="lazy">
+                    </a>
+                    </div>
+                    <div>
+                        <p class="hr_text">Heroku is the quickest way for a company to become an apps company.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md sign_up_fm">
+                <div class="sign_up_error">
+
+                    {% for msg in get_flashed_messages() %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ msg }}
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <form class="needs-validation" novalidate method="post">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md mb-3 col-auto sign_up_firstname">
+                            <input name="firstname" type="text" class="form-control" id="validationCustom01"
+                                   placeholder="First name" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,40}$" required>
+                            <div class="invalid-feedback">
+                                2-40 characters, the first character is a letter.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md mb-3 col-auto sign_up_lastname">
+                            <input name="lastname" type="text" class="form-control" id="validationCustom02"
+                                   placeholder="Last name" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,40}$" required>
+                            <div class="invalid-feedback">
+                                2-40 characters, the first character is a letter.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md mb-3 col-auto sign_up_email">
+                            <input name="email" type="email" class="form-control" id="validationCustom03"
+                                   placeholder="Email" required>
+                            <div class="invalid-feedback">
+                                Please enter email.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md mb-3 col-auto sign_up_pass">
+                            <input name="password" type="Password" class="form-control"
+                                   id="validationCustom04" placeholder="Password" pattern="(?=^.{8,}$)((?=.*\d)|(?=
+                                   .*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                            <div class="invalid-feedback">
+                                Min 8 characters: one 0-9 and one A-Z.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md mb-3 col-auto sign_up_pass">
+                            <input type="password" class="form-control"
+                                   id="validationCustom05" placeholder="Password" required>
+                            <div class="invalid-feedback">
+                                Passwords Don't Match.
+                            </div>
+                            <a href="#" class="password-control" onclick="return show_hide_password(this);"></a>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Sign up</button>
+                </form>
+                <div class="footer_sign_up_form">
+                    <a class="sign_in_s_u" href="/sign_in">
+                        Sign In
+                    </a>
+                    <a class="fg_psw" href="/forgot_password">
+                        Forgot password?
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        /* -------- password replay check -------- */
+        window.onload = function () {
+            document.getElementById("validationCustom04").onchange = validatePassword;
+            document.getElementById("validationCustom05").onchange = validatePassword;
+        }
+        function validatePassword(){
+            let pass1 = document.getElementById("validationCustom04").value;
+            let pass2 = document.getElementById("validationCustom05").value;
+            if(pass1 !== pass2)
+            document.getElementById("validationCustom05").setCustomValidity(' ');
+            else
+            document.getElementById("validationCustom05").setCustomValidity('');
+        }
+    </script>
+{% endblock %}

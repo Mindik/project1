@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ bookInfo.title }}
+{% endblock %}
+
+{% block main %}
+<div class="container" style="padding-top: 50px">
+    <div class="book_page">
+        <div class="returnMain">
+            <a class="return_btn" href="/"><i class="far fa-times-circle"></i></a>
+        </div>
+        <div class="row book_p">
+            <div class="col-lg-3 book_img">
+                <img src="/static/img/{{ bookInfo.img_name }}" alt="">
+                <div class="book_rating">
+                    <div class="rating"
+                         style="background: linear-gradient(to right,  {{ color }} {{ percent }}%, #f3f3f3  {{ 100 - percent }}%); -webkit-background-clip: text;">
+                        <i id="11" class="fas fa-star"></i>
+                        <i id="12" class="fas fa-star"></i>
+                        <i id="13" class="fas fa-star"></i>
+                        <i id="14" class="fas fa-star"></i>
+                        <i id="15" class="fas fa-star"></i>
+                    </div>
+                    <div id="rating_score">{{ average_score }}/{{ review_count }}</div>
+                </div>
+                <div class="goodreads">
+                    goodreads {{ goodreads_rating }}/{{ goodreads_count }}
+                </div>
+                <div class="isbn_number">
+                    {{ bookInfo.isbn }}
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="title">{{ bookInfo.author }}</div>
+                <div class="author">{{ bookInfo.title }}, {{ bookInfo.year }}</div>
+                <div class="text_more">
+                    {{ text }}
+                </div>
+                <div class="review_block">
+                    {% if review %}
+                    {% for rev in review %}
+                    {% if rev.review_text %}
+                    <div class="review_result">
+                        <div class="review_header">
+                            <div class="avatar_review" style="background-image: url(/static/ava/{{ rev.avatar_img }});"></div>
+                            <div class="name_lastname_review">
+                                {{ rev.firstname }} {{ rev.lastname }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="text_rev">
+                            {{ rev.review_text }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+            {% if reviewError == 0%}
+                <div class="review_background">
+                <botton class="add_btn_view" onclick="reviewBackground()"><i class="far fa-plus-square"></i></botton>
+                <botton class="close_btn_view" onclick="closeReviewBackground()"><i class="far
+                fa-times-circle"></i></botton>
+                <form class="review_form" method="post">
+                    <div class="col-md-3 mb-3 rating_select">
+                        <div>
+                            <select name="rating_book_review" class="custom-select" id="valid_rating_review"
+                                      placeholder="Rating" required>
+                            <option selected disabled value="">Rating...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        </div>
+                        <div class="btn_add_rev">
+                            <botton class="add_btn" onclick="addReview('{{ bookInfo.isbn }}')"><i class="far
+                            fa-plus-square"></i></botton>
+                        </div>
+                    </div>
+                    <textarea class="form-control" id="text_rating_review" rows="3"></textarea>
+                </form>
+                </div>
+            {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

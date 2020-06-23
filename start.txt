@@ -1,0 +1,4 @@
+set DATABASE_URL=postgres://jkjcpacwmyvinj:4df9cc37966da638a050ca35ee5ed723d48cc89ac2980278e55c93f75bb24001@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d99t3klcu7ronr
+set FLASK_DEBUG=1
+set FLASK_APP=application.py
+flask run --reload

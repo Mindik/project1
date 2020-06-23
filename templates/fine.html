@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Fine
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="sign_up_inner">
+        <div class="row error_form">
+
+        {% if ok == 1 %}
+            <div class="error">
+                <div class="alert alert-success" role="alert">
+                    <p>You have changed your email address. We have sent you an email to confirm the changes.</p>
+                    <hr>
+                    <p style="font-style: italic; font-size: 14px">If you did not do this, be sure to contact us!.</p>
+                    <hr>
+                    <a href="/sign_in" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Sign in</a>
+                </div>
+            </div>
+
+        {% elif ok == 2 %}
+            <div class="error">
+                <div class="alert alert-success" role="alert">
+                    <p>You have verified your inbox. You can now log in to your account!</p>
+                    <hr>
+                    <a href="/sign_in" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Sign in</a>
+                </div>
+            </div>
+
+        {% elif ok == 3 %}
+            <div class="error">
+                <div class="alert alert-success" role="alert">
+                    <p>You have successfully changed the password. Now you can log in to your account!</p>
+                    <hr>
+                    <a href="/sign_in" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Sign in</a>
+                </div>
+            </div>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
