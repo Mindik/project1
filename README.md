@@ -9,8 +9,7 @@ Used Goodreads [API](https://www.goodreads.com/api) and [Heroku](https://www.her
 The project was implemented in [PyCharm](https://www.jetbrains.com/pycharm/) 2020.1.2 (Professional Edition).
 Applied technology [Flask](https://flask.palletsprojects.com/en/1.1.x/), 
 [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), 
-[HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/) ([SASS
-](https://sass-lang.com/).
+[HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/) ([SASS](https://sass-lang.com/)).
 
 The task can be viewed at the link - [Project 1: Books](https://docs.cs50.net/web/2020/x/projects/1/project1.html).
 
@@ -30,13 +29,15 @@ Data for connecting to the database is specified in the application.py file. The
 
 The server is temporarily deployed on [AWS EB](http://project1-env.eba-4pwgu3zp.us-east-2.elasticbeanstalk.com/)
 
-Importing the source data about books from the books.csv table was done by a program that is written in Python in the
- [import.py](import.py) file. 
-<br>(Additionally downloaded 5000 (!) Images and texts for each book ([parc_img_text.py](parc_img_text.py)).
-
 ## Project structure
 #### Core files
-1. [application.py](application.py)
+1. [requirements.txt](requirements.txt)
+
+    The file contains a list of libraries used to run the application.
+        
+        pip3 install -r requirements.txt 
+    
+2. [application.py](application.py)
 
     The main file that initializes the application. This file links the application, consisting of different files, into
     a single whole. Here are the keys to the Heroku database Goodreads URI APIs.
@@ -45,14 +46,10 @@ Importing the source data about books from the books.csv table was done by a pro
         set FLASK_APP=application.py
 
         flask run
-  
-2. [config.py](config.py)
+
+3. [config.py](config.py)
 
     Project configuration file. Contains the basic settings for the application. Flask_mail settings and so on.
-
-3. [requirements.txt](requirements.txt)
-
-    The file contains a list of libraries used to run the application.
 
 4. [views.py](views.py)
 
@@ -85,6 +82,10 @@ Importing the source data about books from the books.csv table was done by a pro
     * [img](static/img)
     
         A directory with 5,000 book covers downloaded! :) (minimum file size)
+        
+    * [ava](static/ava)
+    
+        Directory of user images.
     
 8. [templates](templates)
 
@@ -109,7 +110,10 @@ Importing the source data about books from the books.csv table was done by a pro
 
     Program for reading books.csv and subsequent import into Heroku Database
     
-    Для запуска используйте команду:
+    To start use the command:
+    
+    *Set the environment variable DATABASE_URL to be the URI of your database, which you should be able to see from
+     the credentials page on Heroku.*
     
         python import.py
     
@@ -118,6 +122,11 @@ Importing the source data about books from the books.csv table was done by a pro
     Additional file for downloading book covers and text book descriptions.
 
     Images will be saved in the specified directory. Text and file name will be added to the database.
+    
+    *Set the environment variable DATABASE_URL to be the URI of your database, which you should be able to see from
+     the credentials page on Heroku.*
+     
+        python parc_img_text.py
 
 
 ## App appearance
