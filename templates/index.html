@@ -186,5 +186,18 @@ Books
                 next();
             }
         };
+        /* -------- password replay check -------- */
+        window.onload = function () {
+            document.getElementById("validationCustom100").onchange = validatePassword;
+            document.getElementById("validationCustom101").onchange = validatePassword;
+        }
+        function validatePassword(){
+            let pass1 = document.getElementById("validationCustom100").value;
+            let pass2 = document.getElementById("validationCustom101").value;
+            if(pass1 !== pass2)
+                document.getElementById("validationCustom101").setCustomValidity(' ');
+            else
+                document.getElementById("validationCustom101").setCustomValidity('');
+        }
     </script>
 {% endblock %}
