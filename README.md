@@ -9,7 +9,8 @@ Used Goodreads [API](https://www.goodreads.com/api) and [Heroku](https://www.her
 The project was implemented in [PyCharm](https://www.jetbrains.com/pycharm/) 2020.1.2 (Professional Edition).
 Applied technology [Flask](https://flask.palletsprojects.com/en/1.1.x/), 
 [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), 
-[HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/).
+[HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/) ([SASS
+](https://sass-lang.com/).
 
 The task can be viewed at the link - [Project 1: Books](https://docs.cs50.net/web/2020/x/projects/1/project1.html).
 
@@ -29,10 +30,96 @@ Data for connecting to the database is specified in the application.py file. The
 
 The server is temporarily deployed on [AWS EB](http://project1-env.eba-4pwgu3zp.us-east-2.elasticbeanstalk.com/)
 
-Importing the source data about books from the books.csv table was done by a program that is written in Python in the import.py file. 
+Importing the source data about books from the books.csv table was done by a program that is written in Python in the
+ [import.py](import.py) file. 
 <br>(Additionally downloaded 5000 (!) Images and texts for each book ([parc_img_text.py](parc_img_text.py)).
 
-## Sign up
+## Project structure
+#### Core files
+1. [application.py](application.py)
+
+    The main file that initializes the application. This file links the application, consisting of different files, into
+    a single whole. Here are the keys to the Heroku database Goodreads URI APIs.
+    To launch the application, use the commands:
+    
+        set FLASK_APP=application.py
+
+        flask run
+  
+2. [config.py](config.py)
+
+    Project configuration file. Contains the basic settings for the application. Flask_mail settings and so on.
+
+3. [requirements.txt](requirements.txt)
+
+    The file contains a list of libraries used to run the application.
+
+4. [views.py](views.py)
+
+    File of the main application paths. The basic logic for the application is described here. 
+    <br>Which implements certain functions when navigating to a specific URL.
+
+5. [forms.py](forms.py)
+
+    Contains helper objects. Here I tried to use the basics of OOP. Uses FlaskForm. Most database queries are described here.
+
+6. [helpers.py](helpers.py)
+
+    This is a file from CS50 Finance.
+    Authorization Check Function. I added the function of checking the extension of the downloaded files to this file and sending a message to the email address.
+
+7. [static](static)
+
+    The directory where the application files are located (image, CSS, JS)
+
+    * [script.js](static/script.js)
+ 
+         The main script written in JavaScript. I tried to leave detailed comments, but my knowledge of English is low :(.
+         
+         *My experience in JS is minimal. I was looking for information on Google to implement certain functions.*
+    
+    * [style.scss](static/style.scss)
+ 
+         SASS file containing CSS markup for all pages of the application.
+    
+    * [img](static/img)
+    
+        A directory with 5,000 book covers downloaded! :) (minimum file size)
+    
+8. [templates](templates)
+
+    The directory where the HTML markup templates are located. The main [layout.html](templates/layout.html) template. 
+    <br>The rest are related to him, thanks to [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/)
+
+#### Additional files
+
+1. [secretKey.py](secretKey.py)
+
+    Secret key generation ([more](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY))
+
+2. [start.txt](start.txt)
+
+    An additional file for debugging, so as not to write commands every time.
+
+3. [import.py](import.py)
+
+    Program for reading books.csv and subsequent import into Heroku Database
+    
+    Для запуска используйте команду:
+    
+        python import.py
+    
+4. [parc_img_text.py](parc_img_text.py)
+
+    Additional file for downloading book covers and text book descriptions.
+
+    Images will be saved in the specified directory. Text and file name will be added to the database.
+
+
+## App appearance
+
+
+### Sign up
 ![Sign up](https://i.ibb.co/mqkGgrv/register.png)
 
 To use the functions of the site you need to register, indicating the name, surname, email address and password. 
@@ -56,7 +143,8 @@ If the specified mailbox address is already in use, you will see a message about
 ![Error](https://i.ibb.co/Q9Cqy2h/04-1-reg-error-email.png)
 
 
-####ATTENTION! The mailbox name is not case sensitive (MyEMail@exaMPLe.com == myemail@example.com), unlike the rest of the fields.
+*ATTENTION! The mailbox name is not case sensitive (MyEMail@exaMPLe.com == myemail@example.com), unlike the rest of
+ the fields.*
 
 If the user tries to enter the site without confirming the mailbox, the application will not allow this, and the sign in form will offer to re-send the letter.
 
@@ -77,7 +165,7 @@ After clicking on the link from the letter, you will automatically activate your
 
 ![Reg fine](https://i.ibb.co/0BWCm6q/07reg-fine.png)
 
-## Sign in
+### Sign in
 
 After activation, you can log in with your account.
 
@@ -101,3 +189,159 @@ When you submit a login form, if you provide an incorrect username or password, 
 <br>Otherwise, you will be taken to the main page of the site.
 
 ![Sign in form](https://i.ibb.co/tJ213H1/22sign-in-error.png)
+
+
+### Index page
+
+![Index page](https://i.ibb.co/x67jTd0/main-page.png)
+
+1. Personal profile
+
+    Pressing 
+    
+    ![Botton profile](https://i.ibb.co/dKhrK9w/main-profile-btn.png). 
+    
+    A form of personal information will open
+     before you, which no one sees, except you.
+    The page has your photo, the number of your ratings and reviews.
+    You also have the right to upload a new photo, no larger than 5 MB.
+    
+    ![View profile](https://i.ibb.co/n1kbMG2/main-prof-page.png)
+    
+    *I was not able to test error 413 on either the local or AWS EB server. The @ app.errorhandler (413) handler refuses
+     to process it [more details](https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#improving-uploads).*
+     
+    In the forms below you can change your password or email. 
+    In case of input errors, you will also receive error messages.
+    
+    ![Others form error](https://i.ibb.co/2P7b10r/main-prof-error-change-pass.png)
+    
+    ![Others form error](https://i.ibb.co/qBp0hKn/main-prof-change-email-error-email.png)
+    
+    ![Others form error](https://i.ibb.co/K5rLbfz/main-prof-change-email-error-pass.png)
+    
+    If you succeeded in successfully changing the password or email, then you will receive a success message.
+    
+    ![Others form ok](https://i.ibb.co/ChP01LH/main-prof-change-pass-ok.png)
+    
+    ![Others form ok](https://i.ibb.co/QcvtCZ8/main-prof-change-pass-ok-send-email.png)
+    
+    The password can be changed by confirming your account by entering the old password.
+    Changing the mailbox address will require confirmation through the new address.
+    
+    ![Change email](https://i.ibb.co/9bM2Cp0/main-change-pass-email-mail.png)
+
+2. Information Button
+
+    By clicking on the icon 
+    
+    ![Info](https://i.ibb.co/CVmWVX7/main-info.png)
+    
+    You will see a window with general statistics showing the number of books, reviews and registered users.
+    
+    ![Info](https://i.ibb.co/kSM5hvr/main-info-page.png)
+
+3. The main function is the search!
+    By clicking on the icon 
+    
+    ![Search botton form](https://i.ibb.co/0ccD152/main-search.png)
+    
+    You will see a search box
+    
+    ![Window search](https://i.ibb.co/vq9bnGd/main-search-form.png)
+    
+    You can enter isbn. Title, author book. Both fully and partially. Register does not matter at all.
+    
+    ![Isbn full](https://i.ibb.co/Z2CFy00/main-search-isbn-full.png)
+    
+    ![Isbn min](https://i.ibb.co/5LTKNRp/main-search-isbn-min.png)
+    
+    ![Author](https://i.ibb.co/cbyXVK6/main-search-author-more.png)
+    
+    ![Title min](https://i.ibb.co/K690Hkt/main-search-title-min.png)
+    
+    ![Title full](https://i.ibb.co/RpNZDM9/main-search-title-full.png)
+    
+    The search form responds to Enter (Numpad Enter), but you can use the search button.
+    By the way, do not worry about the number of books in the search! On the screen you will see a maximum of 
+    <br>20 books on one page and 20 pages. Pages can be switched by ArrayLeft / ArrayRight.
+    
+    ![Page number](https://i.ibb.co/qDsG6dy/main-search-page-number.png)
+    
+    ![Page number](https://i.ibb.co/Nybxjss/main-search-page-number2.png)
+    
+    The text and image for the books were taken from the goodreads website, using the small Python code I wrote ([parc_img_text.py](parc_img_text.py)).
+    <br>I attached this code to the project. I hope that goodreads are not against the use of their materials for educational (and only!) Purposes.
+    
+    If the book already has grades, then the stars will be colored proportionally! Check it out!
+    
+    ![Rating books](https://i.ibb.co/k5Hfcqn/main-search-stars-rating.png)
+
+4. Log out
+    By clicking on the button on the home page
+     
+    ![Log out](https://i.ibb.co/cFbdhCV/log-out.png)
+    
+    you will end your session and sign out.
+
+### A page of a book.
+
+If you want to leave a review about the book, then you can go to its page! 
+<br>If you have not left a review, then you will see a button that will open the feedback form for you.
+
+*IMPORTANT! All fields must be filled!*
+
+![Book page](https://i.ibb.co/JkLp4wb/book-page-form.png)
+
+![Book page](https://i.ibb.co/vv5JCrX/book-page-form-open.png)
+
+If you have already left your rating, then this form will not be! 
+*I did not give the opportunity to delete my reviews that I left earlier, since “the first word is more expensive
+ than the second” ©*
+ 
+![Book page](https://i.ibb.co/vs71ty2/book-page-add-rev.png) 
+
+You can leave a response that will be added to others without refreshing the page 
+<br>nd the overall rating data will also be updated immediately !!! Thanks JSON!
+ 
+By the way, the text of the books as a result of the search and on the pages of the book is different (in most cases).
+
+Pay attention to the rating of books according to goodreads (API). They are updated every time the page is refreshed.
+
+![Book page](https://i.ibb.co/41Dbc08/book-page-rating.png)
+
+### API
+
+By the way, we now also have our own API!
+It is easy to access, go to / api / isbn. Specify the number of the book you selected instead of isbn.
+
+![API](https://i.ibb.co/NpcVgkx/api1.png)
+
+By completing a similar request, you will get such a result.
+
+![API ok](https://i.ibb.co/QMnP0BK/api2.png)
+
+If you specify an invalid isbn, you will receive an error in the form of JSON and a 404 code for the browser.
+
+![API error](https://i.ibb.co/cNss5d9/api3.png)
+
+Any 404 errors will lead to a redirect to the main page.
+
+### Adaptive layout
+
+![Adaptive](https://i.ibb.co/8xQDHcM/mob1.png)
+
+![Adaptive](https://i.ibb.co/QmVvbYX/mob2.png)
+
+![Adaptive](https://i.ibb.co/ZVfRX5x/mob3.png)
+
+![Adaptive](https://i.ibb.co/LQPpLzR/mob4.png)
+
+![Adaptive](https://i.ibb.co/v1bqTcy/mob5.png)
+
+![Adaptive](https://i.ibb.co/9s9cL91/mob6.png)
+
+![Adaptive](https://i.ibb.co/jgwvmpr/mob7.png)
+
+![Adaptive](https://i.ibb.co/6B1zWxq/mob8.png)
+
