@@ -27,7 +27,6 @@ Data for connecting to the database is specified in the application.py file. The
 <br>changes connection data when using its first tariffs, so the database may stop working before I cancel my
  subscription.
 
-The server is temporarily deployed on [AWS EB](http://prj1-env.eba-kwg2mkpg.us-east-2.elasticbeanstalk.com/)
 
 ## Project structure
 #### Core files
